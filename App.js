@@ -80,7 +80,52 @@
     });
    }
 
-
+   triggerPurchaseEvent(){
+    alert("triggerPurchaseEvent")
+    console.log("tap the button")
+    try {
+      let buo =  branch.createBranchUniversalObject(
+        "item/12345",
+        {
+          canonicalUrl: "https://branch.io/item/12345",
+          title: "My Item Title",
+          contentMetadata: {
+            quantity: 1,
+            price: 23.20,
+            sku: "1994320302",
+            productName: "my_product_name1",
+            productBrand: "my_prod_Brand1",
+            customMetadata: {
+                  custom_key1: "custom_value1",
+                  custom_key2: "custom_value2"
+                  }
+          }
+          }
+      )
+      
+      let params = {
+        transaction_id: "tras_Id_1232343434",
+        currency: "USD",
+        revenue: 200,
+        coupon: "promo-1234",
+        affiliation: "high_fi",
+        description: "Preferred purchase",
+        purchase_loc: "Palo Alto",
+        store_pickup: "unavailable",
+        custom_data: {
+         "Custom_Event_Property_Key1": "Custom_Event_Property_val1",
+         "Custom_Event_Property_Key2": "Custom_Event_Property_val2"
+        }
+      }
+      console.log("purchase start")
+      let event =new BranchEvent(BranchEvent.Purchase,buo,params)
+      event.logEvent()
+      console.log("purchase end")
+    } catch (error) {
+      console.log("purchase end"+error)
+    }
+    
+  }
    
  
    showShare = async () => {
@@ -116,6 +161,8 @@
     let event = new BranchEvent("Some Custom Event", params)
     event.logEvent()
    }
+
+  
 
 
 
@@ -222,8 +269,8 @@ logClovio = async () => {
              <TouchableOpacity style={{borderWidth: 1, borderRadius: 10, padding: 10, margin: 10}} onPress={this.logClovio}>
                <Text>Log Clovio Event</Text>
              </TouchableOpacity>
-             <TouchableOpacity style={{borderWidth: 1, borderRadius: 10, padding: 10, margin: 10}} onPress={this.logCustom}>
-               <Text>Log Custom Event</Text>
+             <TouchableOpacity style={{borderWidth: 1, borderRadius: 10, padding: 10, margin: 10}} onPress={this.triggerPurchaseEvent}>
+               <Text>Log trigger Event</Text>
              </TouchableOpacity>
              </View>
            </ScrollView>
